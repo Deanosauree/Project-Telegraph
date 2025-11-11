@@ -7,6 +7,7 @@ public class ArmController : MonoBehaviour
     [SerializeField] private bool[] correctAngles = {false,false,false};
     private HingeJoint[] hingeJoints;
     private Rigidbody[] rigidBodies;
+    private int[] lastAngle = { 0,0,0};
 
     private void Start()
     {
@@ -42,12 +43,13 @@ public class ArmController : MonoBehaviour
         {
             float angle;
             Rigidbody rb;
-            angle = hingeJoints[i].angle+180;
+            angle = hingeJoints[i].angle+180+lastAngle[i];
             rb = rigidBodies[i];
             if (!correctAngles[i])
             {
-                
-                int desired = desiredAngles[i]+180;
+                Debug.Log($"I think my angle is {angle - 180}");
+
+                int desired = (desiredAngles[i] * -1) +180;
                 var motor = hingeJoints[i].motor;
                 var spring = hingeJoints[i].spring;
                 hingeJoints[i].useSpring = false;
@@ -68,11 +70,13 @@ public class ArmController : MonoBehaviour
                         //if angle is correct, set to true
                         motor.targetVelocity = 0;
                         spring.targetPosition = desired - 180;
+                        hingeJoints[i].spring = spring;
                         hingeJoints[i].useSpring = true;
                         hingeJoints[i].useMotor = false;
                         Debug.Log($"Angle of {hingeJoints[i]} is correct because {(float)desired} < 5 and > -5");
                         correctAngles[i] = true;
                         numberOfCorrect++;
+                        lastAngle[i] = desired - 180;
                         break;
                 }
                 hingeJoints[i].motor = motor;
