@@ -404,13 +404,13 @@ HingeJoint:
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
   m_UseSpring: 0
   m_Spring:
-    spring: 0
-    damper: 0
+    spring: 10000
+    damper: 20
     targetPosition: 0
-  m_UseMotor: 0
+  m_UseMotor: 1
   m_Motor:
-    targetVelocity: 0
-    force: 0
+    targetVelocity: 1
+    force: 10000
     freeSpin: 0
   m_UseLimits: 0
   m_ExtendedLimits: 0
@@ -436,8 +436,8 @@ Rigidbody:
   m_GameObject: {fileID: 473320094}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 1
-  m_AngularDamping: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 100
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -488,7 +488,7 @@ HingeJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485687940}
   serializedVersion: 3
-  m_ConnectedBody: {fileID: 0}
+  m_ConnectedBody: {fileID: 1355022037}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
@@ -496,17 +496,17 @@ HingeJoint:
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
   m_UseSpring: 0
   m_Spring:
-    spring: 0
+    spring: 10000
     damper: 0
-    targetPosition: 0
-  m_UseMotor: 0
+    targetPosition: 90
+  m_UseMotor: 1
   m_Motor:
-    targetVelocity: 0
-    force: 0
+    targetVelocity: 1
+    force: 10000
     freeSpin: 0
   m_UseLimits: 0
   m_ExtendedLimits: 0
-  m_UseAcceleration: 0
+  m_UseAcceleration: 1
   m_Limits:
     min: 0
     max: 0
@@ -528,8 +528,8 @@ Rigidbody:
   m_GameObject: {fileID: 485687940}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 1
-  m_AngularDamping: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -739,23 +739,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -986226649643061569, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.919473
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -986226649643061569, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -986226649643061569, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000013411041
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -986226649643061569, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.39315316
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -986226649643061569, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -46.302
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       propertyPath: m_Name
@@ -763,23 +763,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8941868884634962586, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.82431
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8941868884634962586, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.00000008940694
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8941868884634962586, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000008940694
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8941868884634962586, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.5661388
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8941868884634962586, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -68.963
+      value: -90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -791,6 +791,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1355022041}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a759cfe343c883946a6646bddbea786e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1355022045}
     - targetCorrespondingSourceObject: {fileID: -8785938365417338620, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 485687943}
@@ -883,7 +886,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -1011,6 +1014,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.032001, y: 0.50800496, z: 17.780005}
   m_Center: {x: 0, y: -0.0000025218728, z: 8.890002}
+--- !u!114 &1355022045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355022036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb595d85a444e0a4691f968b0d03d87b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArmController
+  desiredAngles: 4dffffff5a0000005a000000
+  angleAchieved: 0
+  correctAngles: 000000
 --- !u!1 &1667147627 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4005439809018090349, guid: a759cfe343c883946a6646bddbea786e, type: 3}
@@ -1032,13 +1050,13 @@ HingeJoint:
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
   m_UseSpring: 0
   m_Spring:
-    spring: 0
-    damper: 0
+    spring: 10000
+    damper: 20
     targetPosition: 0
-  m_UseMotor: 0
+  m_UseMotor: 1
   m_Motor:
-    targetVelocity: 0
-    force: 0
+    targetVelocity: 1
+    force: 10000
     freeSpin: 0
   m_UseLimits: 0
   m_ExtendedLimits: 0
@@ -1064,8 +1082,8 @@ Rigidbody:
   m_GameObject: {fileID: 1667147627}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 1
-  m_AngularDamping: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 100
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
