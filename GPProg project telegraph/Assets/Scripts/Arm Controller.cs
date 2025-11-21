@@ -36,6 +36,13 @@ public class ArmController : MonoBehaviour
         }
         
     }
+
+    public void rotateTo(int bigBeamAngle,int leftBeamAngle, int rightBeamAngle)
+    {
+        desiredAngles[0] = leftBeamAngle; desiredAngles[1] = bigBeamAngle; desiredAngles[2] = rightBeamAngle;
+        correctAngles[0] = false; correctAngles[1] = false; correctAngles[2] = false;
+        angleAchieved = false;
+    }
     private void setAngle()
     {
         int numberOfCorrect = 0;
