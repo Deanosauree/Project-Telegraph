@@ -15,7 +15,6 @@ public class TelegramArms : MonoBehaviour
         for (int i = 0; i < characterOrder.Length; i++)
         {
             int[] angles = { characterAngles[i,0], characterAngles[i,1], characterAngles[i,2] };
-            Debug.Log($"{characterOrder[i]} - [{angles[0]}, {angles[1]}, {angles[2]}]");
         }
     }
 
