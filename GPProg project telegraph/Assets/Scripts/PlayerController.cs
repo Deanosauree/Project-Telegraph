@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 p1 = transform.position + characterController.center;
-        if (Physics.SphereCast(p1, characterController.radius, -transform.up, out hit, 1))
+        if (Physics.SphereCast(p1, characterController.radius, -transform.up, out hit, 0.8f))
         {
             playerVelocity.y = Mathf.Sqrt(jumpForce * -1.0f * gravityValue);
         }
