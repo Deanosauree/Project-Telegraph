@@ -54,9 +54,8 @@ public class ArmController : MonoBehaviour
             rb = rigidBodies[i];
             if (!correctAngles[i])
             {
-                Debug.Log($"I think my angle is {angle - 180}");
-
-                int desired = (desiredAngles[i] * -1) +180;
+                int desired = (desiredAngles[i] * -1) + 180;
+                
                 var motor = hingeJoints[i].motor;
                 var spring = hingeJoints[i].spring;
                 hingeJoints[i].useSpring = false;
@@ -80,10 +79,10 @@ public class ArmController : MonoBehaviour
                         hingeJoints[i].spring = spring;
                         hingeJoints[i].useSpring = true;
                         hingeJoints[i].useMotor = false;
-                        Debug.Log($"Angle of {hingeJoints[i]} is correct because {(float)desired} < 5 and > -5");
                         correctAngles[i] = true;
                         numberOfCorrect++;
                         lastAngle[i] = desired - 180;
+                        print(desiredAngles[i] + " Reached");
                         break;
                 }
                 hingeJoints[i].motor = motor;
@@ -92,10 +91,10 @@ public class ArmController : MonoBehaviour
             else
             {
                 numberOfCorrect++;
+                
             }
             if (numberOfCorrect == 3) 
             {
-                Debug.Log("ts Working");
                 angleAchieved = true;
             }
 

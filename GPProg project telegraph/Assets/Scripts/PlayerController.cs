@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float gravityValue = -9.8f;
     [SerializeField] float mouseSensitivity = 1f;
     [SerializeField] Camera playerCam;
+    [SerializeField] Interactor interactor;
 
     private Vector3 playerVelocity = Vector3.zero;
 
@@ -64,7 +65,7 @@ public class PlayerController : MonoBehaviour
         if (Physics.SphereCast(p1, characterController.radius * 0.2f, playerCam.transform.forward, out hit, 5))
         {
             Debug.DrawRay(p1, playerCam.transform.forward * 10, Color.green, 1, true);
-            Debug.Log(hit.textureCoord);
+            interactor.interactWithTarget(hit.transform);
         }
     }
     // Update is called once per frame
