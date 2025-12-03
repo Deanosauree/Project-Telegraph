@@ -5,43 +5,39 @@ public class ArmController : MonoBehaviour
     [SerializeField] private int[] desiredAngles = {0,0,0 };
     [SerializeField] private bool angleAchieved = false;
     [SerializeField] private bool[] correctAngles = {false,false,false};
-    private HingeJoint[] hingeJoints;
-    private Rigidbody[] rigidBodies;
-    private int[] lastAngle = { 0,0,0};
+    [SerializeField]
+    private Transform[] transforms;
+    private int[] initialAngles = { 0,0,0};
+    private float rotationSpeed = 0.1f;
 
     private void Start()
     {
-        // gets lists of the hinge joints and rigidbodies connected to the arms in the order {left, center, right}
-        hingeJoints = new HingeJoint[] {
-        transform.GetChild(0).GetChild(0).GetComponent<HingeJoint>(),
-        GetComponentInChildren<HingeJoint>(),
-        transform.GetChild(0).GetChild(1).GetComponent<HingeJoint>()
-    };
 
-        rigidBodies = new Rigidbody[] {
-        transform.GetChild(0).GetChild(0).GetComponent<Rigidbody>(),
-        GetComponentInChildren<Rigidbody>(),
-        transform.GetChild(0).GetChild(1).GetComponent<Rigidbody>()
-        
-    };
-        Debug.Log(hingeJoints[0]);
+        initialAngles = new int[] { (int)transforms[0].localRotation.eulerAngles.z, (int)transforms[1].localRotation.eulerAngles.z, (int)transforms[2].localRotation.eulerAngles.z };
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!angleAchieved)
         {
-            //Debug.Log("settingAngle");
+            Debug.Log("settingAngle");
+
             setAngle();
+        }
+        else
+        {
+            print("Disabled");
+            enabled = false;
         }
         
     }
 
     public void rotateTo(int bigBeamAngle,int leftBeamAngle, int rightBeamAngle)
     {
-        desiredAngles[0] = leftBeamAngle; desiredAngles[1] = bigBeamAngle; desiredAngles[2] = rightBeamAngle;
+        desiredAngles[1] = leftBeamAngle; desiredAngles[0] = bigBeamAngle; desiredAngles[2] = rightBeamAngle;
         correctAngles[0] = false; correctAngles[1] = false; correctAngles[2] = false;
         angleAchieved = false;
+        enabled = true;
     }
     private void setAngle()
     {
@@ -49,44 +45,30 @@ public class ArmController : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             float angle;
-            Rigidbody rb;
-            angle = hingeJoints[i].angle+180+lastAngle[i];
-            rb = rigidBodies[i];
+            Transform tr;
+            angle = transforms[i].localRotation.eulerAngles.z;
+            tr = transforms[i];
             if (!correctAngles[i])
             {
-                int desired = (desiredAngles[i] * -1) + 180;
-                
-                var motor = hingeJoints[i].motor;
-                var spring = hingeJoints[i].spring;
-                hingeJoints[i].useSpring = false;
-                hingeJoints[i].useMotor = true;
+                int desired = (-desiredAngles[i] + initialAngles[i]);
+                print(desired);
+                Quaternion currentRotation = tr.localRotation;
+                Quaternion desiredRotation = Quaternion.Euler(currentRotation.eulerAngles.x,currentRotation.eulerAngles.y,desired);
+                print(Quaternion.Angle(currentRotation, desiredRotation));
+                print($"Supposedly my quaternions are {currentRotation.eulerAngles.y} and {desiredRotation.eulerAngles.y}");
+                //desiredRotation.eulerAngles.Set(desiredRotation.x,desiredRotation.y,desired);
                 //Debug.Log($"Angle of {hingeJoints[i]} = {angle} and difference = {(float)desired - angle}");
-                switch ((float)desired - angle)
+                if (!(Quaternion.Angle(currentRotation, desiredRotation) < 0.001))
                 {
-                    case (> (0.5f) and <(180f)) or (<(-180f) and >(-359.5f)):
-                        //apply force clockwise
-                        //float turn = Input.GetAxis("Horizontal");
-                        motor.targetVelocity = 50;
-                        break;
-                    case (< (-0.5f) and >(-180f) or (>(180f) and <(359.5f))):
-                        //apply force anticlockwise
-                        motor.targetVelocity = -50;
-                        break;
-                    case (< (0.5f) and > (-0.5f)) or (>(359.5f)  or <(-359.5f)) :
-                        //if angle is correct, set to true
-                        motor.targetVelocity = 0;
-                        spring.targetPosition = desired - 180;
-                        hingeJoints[i].spring = spring;
-                        hingeJoints[i].useSpring = true;
-                        hingeJoints[i].useMotor = false;
-                        correctAngles[i] = true;
-                        numberOfCorrect++;
-                        lastAngle[i] = desired - 180;
-                        print(desiredAngles[i] + " Reached");
-                        break;
+                    print($"{i} Slerping from {currentRotation.eulerAngles.z} to {desiredRotation.eulerAngles.z} and I got these values from {tr}");
+                    tr.localRotation = Quaternion.Slerp(currentRotation, desiredRotation, rotationSpeed);
                 }
-                hingeJoints[i].motor = motor;
-                hingeJoints[i].spring = spring;
+                else 
+                {
+                    print($"This arm is correct because {desiredRotation.eulerAngles.z} == {currentRotation.eulerAngles.z}");
+                    correctAngles[i] = true;
+                }
+
             }
             else
             {
@@ -95,6 +77,7 @@ public class ArmController : MonoBehaviour
             }
             if (numberOfCorrect == 3) 
             {
+                print(string.Join(", ",desiredAngles));
                 angleAchieved = true;
             }
 

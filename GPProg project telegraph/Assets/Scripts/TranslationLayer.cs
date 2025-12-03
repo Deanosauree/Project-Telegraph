@@ -55,6 +55,9 @@ public class TranslationLayer : MonoBehaviour
         }
         armAngles = newAngles;
         print("["+string.Join(", ", armAngles) +"]");
-        armController.rotateTo((int)armAngles[1], (int)armAngles[2], (int)armAngles[0]);
+        float mainAngle = armAngles[1];
+        float leftAngle = armAngles[0];
+        float rightAngle = armAngles[2];
+        armController.rotateTo((int)mainAngle, (int)leftAngle, (int)rightAngle);
     }
 }
