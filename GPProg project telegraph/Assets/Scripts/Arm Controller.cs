@@ -1,3 +1,5 @@
+using NUnit.Framework.Internal;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ArmController : MonoBehaviour
@@ -8,12 +10,13 @@ public class ArmController : MonoBehaviour
     [SerializeField]
     private Transform[] transforms;
     private int[] initialAngles = { 0,0,0};
-    private float rotationSpeed = 0.1f;
+    private float[] currentAngles = { 0,0,0};
+    private const float rotationSpeed = 0.7f;
 
     private void Start()
     {
 
-        initialAngles = new int[] { (int)transforms[0].localRotation.eulerAngles.z, (int)transforms[1].localRotation.eulerAngles.z, (int)transforms[2].localRotation.eulerAngles.z };
+        initialAngles = new int[] { (int)transforms[0].localRotation.eulerAngles.y, (int)transforms[1].localRotation.eulerAngles.y, (int)transforms[2].localRotation.eulerAngles.y };
     }
 
     void FixedUpdate()
@@ -46,18 +49,37 @@ public class ArmController : MonoBehaviour
         {
             float angle;
             Transform tr;
-            angle = transforms[i].localRotation.eulerAngles.z;
+            angle = currentAngles[i];// * (180/math.PI);
             tr = transforms[i];
+            float thisRotation = 0f;
             if (!correctAngles[i])
             {
-                int desired = (-desiredAngles[i] + initialAngles[i]);
-                print(desired);
-                Quaternion currentRotation = tr.localRotation;
-                Quaternion desiredRotation = Quaternion.Euler(currentRotation.eulerAngles.x,currentRotation.eulerAngles.y,desired);
-                print(Quaternion.Angle(currentRotation, desiredRotation));
-                print($"Supposedly my quaternions are {currentRotation.eulerAngles.y} and {desiredRotation.eulerAngles.y}");
+                int desired = (desiredAngles[i]);// + initialAngles[i]);
+                print("Desired:"+desired);
+                print("Angle:"+angle);
                 //desiredRotation.eulerAngles.Set(desiredRotation.x,desiredRotation.y,desired);
                 //Debug.Log($"Angle of {hingeJoints[i]} = {angle} and difference = {(float)desired - angle}");
+
+                switch (desired - angle) 
+                {
+                    case (> rotationSpeed and < (180f)) or (<(-180f) and >(-360f+rotationSpeed)):
+                        thisRotation = rotationSpeed;
+                        tr.Rotate(0, thisRotation, 0);
+                        break;
+                    case (< (-rotationSpeed) and > (-180f) or (> (180f) and < (360f-rotationSpeed))):
+                        thisRotation = -rotationSpeed; 
+                        tr.Rotate(0, thisRotation, 0);
+                        break;
+                    case (<= rotationSpeed and >= -rotationSpeed) or (>= (360f-rotationSpeed) or <= (-360f+rotationSpeed)):
+                        thisRotation = desired-angle;
+                        tr.Rotate(0, thisRotation, 0);
+                        correctAngles[i] = true;
+                        numberOfCorrect++;
+                        break;
+                }
+                
+                currentAngles[i] = currentAngles[i] + thisRotation;
+                /*
                 if (!(Quaternion.Angle(currentRotation, desiredRotation) < 0.001))
                 {
                     print($"{i} Slerping from {currentRotation.eulerAngles.z} to {desiredRotation.eulerAngles.z} and I got these values from {tr}");
@@ -68,6 +90,7 @@ public class ArmController : MonoBehaviour
                     print($"This arm is correct because {desiredRotation.eulerAngles.z} == {currentRotation.eulerAngles.z}");
                     correctAngles[i] = true;
                 }
+                */
 
             }
             else
