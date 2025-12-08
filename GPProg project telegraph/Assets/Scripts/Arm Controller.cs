@@ -8,6 +8,7 @@ public class ArmController : MonoBehaviour
     [SerializeField] private bool angleAchieved = false;
     [SerializeField] private bool[] correctAngles = {false,false,false};
     [SerializeField]
+    [Header("Transforms for beams in order Big, Left, Right")]
     private Transform[] transforms;
     private int[] initialAngles = { 0,0,0};
     private float[] currentAngles = { 0,0,0};
@@ -23,7 +24,7 @@ public class ArmController : MonoBehaviour
     {
         if (!angleAchieved)
         {
-            Debug.Log("settingAngle");
+            Debug.Log("\nsettingAngle on "+ this.gameObject);
 
             setAngle();
         }
@@ -55,8 +56,10 @@ public class ArmController : MonoBehaviour
             if (!correctAngles[i])
             {
                 int desired = (desiredAngles[i]);// + initialAngles[i]);
+                /*
                 print("Desired:"+desired);
                 print("Angle:"+angle);
+                */
                 //desiredRotation.eulerAngles.Set(desiredRotation.x,desiredRotation.y,desired);
                 //Debug.Log($"Angle of {hingeJoints[i]} = {angle} and difference = {(float)desired - angle}");
 
@@ -66,7 +69,7 @@ public class ArmController : MonoBehaviour
                         thisRotation = rotationSpeed;
                         tr.Rotate(0, thisRotation, 0);
                         break;
-                    case (< (-rotationSpeed) and > (-180f) or (> (180f) and < (360f-rotationSpeed))):
+                    case (< (-rotationSpeed) and >= (-180f) or (>= (180f) and < (360f-rotationSpeed))):
                         thisRotation = -rotationSpeed; 
                         tr.Rotate(0, thisRotation, 0);
                         break;
