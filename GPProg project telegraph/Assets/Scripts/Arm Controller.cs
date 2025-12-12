@@ -50,19 +50,12 @@ public class ArmController : MonoBehaviour
         {
             float angle;
             Transform tr;
-            angle = currentAngles[i];// * (180/math.PI);
+            angle = currentAngles[i];
             tr = transforms[i];
             float thisRotation = 0f;
             if (!correctAngles[i])
             {
-                int desired = (desiredAngles[i]);// + initialAngles[i]);
-                /*
-                print("Desired:"+desired);
-                print("Angle:"+angle);
-                */
-                //desiredRotation.eulerAngles.Set(desiredRotation.x,desiredRotation.y,desired);
-                //Debug.Log($"Angle of {hingeJoints[i]} = {angle} and difference = {(float)desired - angle}");
-
+                int desired = (desiredAngles[i]);
                 switch (desired - angle) 
                 {
                     case (> rotationSpeed and < (180f)) or (<(-180f) and >(-360f+rotationSpeed)):
@@ -82,18 +75,6 @@ public class ArmController : MonoBehaviour
                 }
                 
                 currentAngles[i] = currentAngles[i] + thisRotation;
-                /*
-                if (!(Quaternion.Angle(currentRotation, desiredRotation) < 0.001))
-                {
-                    print($"{i} Slerping from {currentRotation.eulerAngles.z} to {desiredRotation.eulerAngles.z} and I got these values from {tr}");
-                    tr.localRotation = Quaternion.Slerp(currentRotation, desiredRotation, rotationSpeed);
-                }
-                else 
-                {
-                    print($"This arm is correct because {desiredRotation.eulerAngles.z} == {currentRotation.eulerAngles.z}");
-                    correctAngles[i] = true;
-                }
-                */
 
             }
             else

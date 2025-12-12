@@ -68,7 +68,6 @@ public class PlayerController : MonoBehaviour
             interactor.interactWithTarget(hit.transform);
         }
     }
-    // Update is called once per frame
     void Update()
     {
         
@@ -86,7 +85,6 @@ public class PlayerController : MonoBehaviour
         Vector3 finalMove = new Vector3(move.x * movementSpeed, playerVelocity.y, move.z * movementSpeed);
         finalMove = transform.TransformDirection(finalMove);
 
-        //camera movement 
         rotate = lookx.ReadValue<float>() * mouseSensitivity * Time.fixedDeltaTime;
         camYRotation -= looky.ReadValue<float>() * mouseSensitivity * Time.fixedDeltaTime;
         camYRotation = Mathf.Clamp(camYRotation, -90f, 90f);
