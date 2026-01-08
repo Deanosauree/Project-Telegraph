@@ -54,7 +54,6 @@ public class TranslationLayer : MonoBehaviour
                 break;
         }
         armAngles = newAngles;
-        print("["+string.Join(", ", armAngles) +"]");
         float mainAngle = armAngles[1];
         float leftAngle = armAngles[0];
         float rightAngle = armAngles[2];
@@ -63,7 +62,6 @@ public class TranslationLayer : MonoBehaviour
 
     public void setLetter(char letter) 
     {
-        print($"setting letter to {letter}");
         int currentLocation = 0;
         foreach (char c in characterOrder)
         {

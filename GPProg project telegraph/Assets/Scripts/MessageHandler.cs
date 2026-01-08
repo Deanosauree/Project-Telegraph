@@ -1,12 +1,17 @@
 using JetBrains.Annotations;
 using System;
+using System.Collections;
 using Unity.Profiling.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MessageHandler : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public UnityEvent messageComplete;
+    public UnityEvent onMistake;
+
     [SerializeField]
     TranslationLayer sendingTower;
     [SerializeField]
@@ -33,6 +38,10 @@ public class MessageHandler : MonoBehaviour
     private char currentPlayerLetter = '~';
     private char lastPlayerLetter = '~';
 
+    public int getTotalMistakes()
+    {
+        return totalMistakes;
+    }
     private void Awake()
     {
         charHoldSeconds = startingSecondsToConfirrm;
@@ -40,8 +49,22 @@ public class MessageHandler : MonoBehaviour
     private void Start()
     {
         lastPlayerLetter = playerTower.getLetter();
-        startNewMessage("FRANCE");
+        Invoke("CallForMessage",1f);
 
+    }
+
+    private void CallForMessage()
+    {
+        print("CallingMessage");
+        messageComplete.Invoke();
+    }
+
+    public IEnumerator WaitToMessage(string message, int waitTime)
+    {
+        print("Starting message in: " + waitTime);
+        yield return new WaitForSeconds(waitTime);
+        startNewMessage(message);
+        StopAllCoroutines();
     }
     private void startNewMessage(string message)
     {
@@ -70,6 +93,11 @@ public class MessageHandler : MonoBehaviour
 
     }
 
+    private void endOfMessage()
+    {
+        messageComplete.Invoke();
+    }
+
     private void sendNewCharacter(char character,TranslationLayer tower)
     {
         tower.setLetter(character);
@@ -90,7 +118,6 @@ public class MessageHandler : MonoBehaviour
             else { thisCharFor = 0; lastPlayerLetter = currentPlayerLetter; currentPlayerLetter = playerLetter; }
             if (thisCharFor > charHoldSeconds && currentPlayerLetter != lastPlayerLetter && lastPlayerLetter != '~')
             {
-                print($"Last letter is {lastPlayerLetter} and this letter is {playerLetter}");
                 print($"Letter sent: {playerLetter}\nCorrectLetter: {currentLetter}");
                 lastPlayerLetter = currentPlayerLetter;
                 if (currentPlayerLetter == currentLetter)
@@ -102,12 +129,14 @@ public class MessageHandler : MonoBehaviour
                     sendNewCharacter(currentPlayerLetter, recievingTower);
                     totalMistakes++;
                     currentMessageMistakes++;
+                    onMistake.Invoke();
                 }
                 currentCharacter++;
                 if (currentCharacter == currentMessage.Length)
                 {
                     sendingMessage = false;
                     CancelInvoke();
+                    endOfMessage();
                 }
                 else
                 {

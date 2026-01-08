@@ -526,12 +526,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -4005439809018090349, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 874518787}
+    - targetCorrespondingSourceObject: {fileID: -4005439809018090349, guid: a759cfe343c883946a6646bddbea786e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 874518790}
     - targetCorrespondingSourceObject: {fileID: -2645202334772212454, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 453976753}
     - targetCorrespondingSourceObject: {fileID: -2645202334772212454, guid: a759cfe343c883946a6646bddbea786e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 453976754}
+    - targetCorrespondingSourceObject: {fileID: -2645202334772212454, guid: a759cfe343c883946a6646bddbea786e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 453976757}
   m_SourcePrefab: {fileID: 100100000, guid: a759cfe343c883946a6646bddbea786e, type: 3}
 --- !u!4 &215217231 stripped
 Transform:
@@ -900,6 +906,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::armInteractable
   selectedArm: 2
   translationLayer: {fileID: 1869285375}
+--- !u!135 &453976757
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453976749}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 3
+  m_Center: {x: 0, y: 1.2621774e-28, z: -0.00000029802322}
 --- !u!1 &489336005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1857,6 +1884,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::armInteractable
   selectedArm: 1
   translationLayer: {fileID: 1869285375}
+--- !u!135 &874518790
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874518782}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 3
+  m_Center: {x: 0, y: 0.00012207031, z: -0.00000029802322}
 --- !u!1 &968258924 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 557d07fd7f4de384c8418883f6644075, type: 3}
@@ -3408,6 +3456,7 @@ GameObject:
   - component: {fileID: 1758346311}
   - component: {fileID: 1758346313}
   - component: {fileID: 1758346314}
+  - component: {fileID: 1758346315}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -3470,10 +3519,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66cc470ad51c364fa87e0904216c68a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MessageHandler
+  messageComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1758346315}
+        m_TargetAssemblyTypeName: StateMachine, Assembly-CSharp
+        m_MethodName: startNewMessage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMistake:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1758346315}
+        m_TargetAssemblyTypeName: StateMachine, Assembly-CSharp
+        m_MethodName: wrongCharacter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   sendingTower: {fileID: 1024382445}
   playerTower: {fileID: 1869285375}
   recievingTower: {fileID: 1984336259}
   startingSecondsToConfirrm: 5
+--- !u!114 &1758346315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758346310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f95b826dac20b449fa921176fb7a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateMachine
+  mistakeValues: 03000000080000000a000000
 --- !u!1001 &1858019765
 PrefabInstance:
   m_ObjectHideFlags: 0

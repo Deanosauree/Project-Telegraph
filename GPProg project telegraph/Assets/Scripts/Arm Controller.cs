@@ -24,7 +24,6 @@ public class ArmController : MonoBehaviour
     {
         if (!angleAchieved)
         {
-            Debug.Log("\nsettingAngle on "+ this.gameObject);
 
             setAngle();
         }
@@ -84,7 +83,6 @@ public class ArmController : MonoBehaviour
             }
             if (numberOfCorrect == 3) 
             {
-                print(string.Join(", ",desiredAngles));
                 angleAchieved = true;
             }
 
