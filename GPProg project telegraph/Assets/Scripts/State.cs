@@ -25,7 +25,6 @@ public abstract class State : IState
     protected IEnumerator coroutine;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public State(StateMachine controller, MessageHandler messager) 
     {
         this.controller = controller;

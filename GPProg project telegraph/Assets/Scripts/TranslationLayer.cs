@@ -25,17 +25,17 @@ public class TranslationLayer : MonoBehaviour
         
     }
 
-    public void updateArmAngles(float[] newAngles)
+    private void updateArmAngles(float[] newAngles) // tells the arm controller what angles to rotate to
     {
         armAngles = newAngles;
         Debug.Log($"{gameObject}Arm angles updated - {armAngles}");
         armController.rotateTo((int)armAngles[1], (int)armAngles[0], (int)armAngles[2]);
     }
 
-    public void updateSingleAngle(float angle, string arm)
+    public void updateSingleAngle(float angle, string arm) // used by the player arm interactable
     {
         float[] newAngles = armAngles;
-        switch (arm)
+        switch (arm) // changes a specific angle in the armAngles array
         {
             case "Main":
                 newAngles = new float[] { armAngles[0], angle, armAngles[2] };
@@ -58,25 +58,26 @@ public class TranslationLayer : MonoBehaviour
         float leftAngle = armAngles[0];
         float rightAngle = armAngles[2];
         armController.rotateTo((int)mainAngle, (int)leftAngle, (int)rightAngle);
+        // tells the players tower to rotate to the new position
     }
 
-    public void setLetter(char letter) 
+    public void setLetter(char letter) // used by the message handler to set the games towers to the correct angles
     {
         int currentLocation = 0;
-        foreach (char c in characterOrder)
+        foreach (char c in characterOrder)// finds the position of the character in the order then finds the angles required
         {
-            if (c == letter)
+            if (c == letter) 
             {
                 print($"Setting letter {letter} which is location {currentLocation}");
                 float[] anglesToSet = { characterAngles[currentLocation,0], characterAngles[currentLocation,1], characterAngles[currentLocation,2] };
-                updateArmAngles(anglesToSet);
+                updateArmAngles(anglesToSet); // calls for the new angles to be applied
                 break;
             }
             currentLocation++;
         }
     }
 
-    public char getLetter()
+    public char getLetter() // works out what character the current position represents and returns it
     {
         for (int i = 0; i < characterAngles.Length; i++)
         {

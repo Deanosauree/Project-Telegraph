@@ -29,13 +29,12 @@ public class ArmController : MonoBehaviour
         }
         else
         {
-            print("Disabled");
             enabled = false;
         }
         
     }
 
-    public void rotateTo(int bigBeamAngle,int leftBeamAngle, int rightBeamAngle)
+    public void rotateTo(int bigBeamAngle,int leftBeamAngle, int rightBeamAngle) // used to tell the script what angle to rotate to
     {
         desiredAngles[1] = leftBeamAngle; desiredAngles[0] = bigBeamAngle; desiredAngles[2] = rightBeamAngle;
         correctAngles[0] = false; correctAngles[1] = false; correctAngles[2] = false;

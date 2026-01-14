@@ -31,7 +31,7 @@ public class StateMachine : MonoBehaviour
         messaging = setMessaging;
     }
 
-    public void ChangeState(State newState)
+    public void ChangeState(State newState) // creates the next state and switches
     {
         if (currentState != null)
         {
@@ -42,7 +42,7 @@ public class StateMachine : MonoBehaviour
         currentState.Initialise();
     }
 
-    public void startNewMessage()
+    public void startNewMessage() // tells the current state to excecute
     {
         if (messaging)
         {
@@ -51,7 +51,7 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    public void wrongCharacter()
+    public void wrongCharacter() // switches state if enough errors have been made
     {
         int totalWrong = handler.getTotalMistakes();
         print("wrong character, total wrong charactes is " + totalWrong + "\nrequired for next state is "+ mistakeValues[stateNum]);

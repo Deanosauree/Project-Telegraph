@@ -18,7 +18,7 @@ public class armInteractable : MonoBehaviour, Interactable
         armTransform = GetComponent<Transform>();
         inititalAngle = (int)transform.rotation.z;
     }
-    public void Interact(Transform interactorTransform)
+    public void Interact(Transform interactorTransform) // rotates though the relevant list of angles depending on arm type
     {
         int rotation = 0;
         switch (selectedArm) 

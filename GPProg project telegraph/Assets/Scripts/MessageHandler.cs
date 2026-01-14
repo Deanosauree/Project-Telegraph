@@ -8,7 +8,6 @@ using UnityEngine.Events;
 
 public class MessageHandler : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public UnityEvent messageComplete;
     public UnityEvent onMistake;
 
@@ -49,7 +48,7 @@ public class MessageHandler : MonoBehaviour
     private void Start()
     {
         lastPlayerLetter = playerTower.getLetter();
-        Invoke("CallForMessage",1f);
+        Invoke("CallForMessage",1f); // delays to ensure all required references exist
 
     }
 
@@ -61,6 +60,7 @@ public class MessageHandler : MonoBehaviour
 
     public IEnumerator WaitToMessage(string message, int waitTime)
     {
+        // allows the state to call for a new message on the frame it is asked but give a delay before the message starts
         print("Starting message in: " + waitTime);
         yield return new WaitForSeconds(waitTime);
         startNewMessage(message);
@@ -68,6 +68,7 @@ public class MessageHandler : MonoBehaviour
     }
     private void startNewMessage(string message)
     {
+        // cancels current message and updates tracking values
         if (sendingMessage) 
         {
             if (averageCharacterTime != 0)
@@ -88,7 +89,7 @@ public class MessageHandler : MonoBehaviour
         lastMessageTime = currentMessageTime;
         currentMessageTime = 0;
         currentMessageMistakes = 0;
-        InvokeRepeating("runMessageCheck", 0, 1);
+        InvokeRepeating("runMessageCheck", 0, 1); // invokes runmessagecheck to run every second
         sendNewCharacter(currentMessage[0], sendingTower);
 
     }
@@ -111,20 +112,21 @@ public class MessageHandler : MonoBehaviour
             char currentLetter = currentMessage[currentCharacter];
             char playerLetter = playerTower.getLetter();
             currentMessageTime++;
-            if (currentPlayerLetter == playerLetter)
+            if (currentPlayerLetter == playerLetter) // if the letter represented by the tower has not changed
             {
                 thisCharFor++;
             }
-            else { thisCharFor = 0; lastPlayerLetter = currentPlayerLetter; currentPlayerLetter = playerLetter; }
-            if (thisCharFor > charHoldSeconds && currentPlayerLetter != lastPlayerLetter && lastPlayerLetter != '~')
+            else { thisCharFor = 0; lastPlayerLetter = currentPlayerLetter; currentPlayerLetter = playerLetter; } // reset timer if the letter changes, set the last player letter
+            if (thisCharFor > charHoldSeconds && currentPlayerLetter != lastPlayerLetter && lastPlayerLetter != '~') 
+                // if the same letter has been held for a set time AND the letter has been changed at some point since the last character
             {
                 print($"Letter sent: {playerLetter}\nCorrectLetter: {currentLetter}");
                 lastPlayerLetter = currentPlayerLetter;
-                if (currentPlayerLetter == currentLetter)
+                if (currentPlayerLetter == currentLetter) // check if the player got the character correct
                 {
-                    sendNewCharacter(currentLetter, recievingTower);
+                    sendNewCharacter(currentLetter, recievingTower); // tells next tower in chain to copy the player
                 }
-                else 
+                else
                 {
                     sendNewCharacter(currentPlayerLetter, recievingTower);
                     totalMistakes++;
@@ -132,7 +134,7 @@ public class MessageHandler : MonoBehaviour
                     onMistake.Invoke();
                 }
                 currentCharacter++;
-                if (currentCharacter == currentMessage.Length)
+                if (currentCharacter == currentMessage.Length) // checks if this character is the final of the message
                 {
                     sendingMessage = false;
                     CancelInvoke();
@@ -140,7 +142,7 @@ public class MessageHandler : MonoBehaviour
                 }
                 else
                 {
-                    sendNewCharacter(currentMessage[currentCharacter], sendingTower);
+                    sendNewCharacter(currentMessage[currentCharacter], sendingTower); // sends a new character for the sending tower to adopt
                 }
             }
            

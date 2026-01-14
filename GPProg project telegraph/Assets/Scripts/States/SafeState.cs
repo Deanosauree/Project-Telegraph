@@ -7,6 +7,7 @@ public class SafeState : State
     
     public SafeState(StateMachine controller, MessageHandler messager) : base(controller, messager)
     {
+        // sets up initial state
         minWaitTime = 20;
         maxWaitTime = 50;
         filePath = "Assets/StateText/SafeText.txt";
@@ -22,6 +23,7 @@ public class SafeState : State
 
     public override void Execute()
     {
+        // Execute is what the state machine calls when requesting a new message
         int waitTime = Random.Range(minWaitTime, maxWaitTime);
         sendNewMessage(waitTime, messages[Random.Range(0,messages.Length)]);
     }
